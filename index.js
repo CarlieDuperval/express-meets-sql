@@ -1,6 +1,6 @@
 import express from 'express'
 import cors from 'cors'
-import { getPets } from './src/pets.js'
+import { getPets , createPet} from './src/pets.js'
 
 const app = express() // initialize express
 app.use(cors())
@@ -15,6 +15,24 @@ app.get('/pets', async (req, res) => {
         res.status(500).send(error)  
     } 
 })
+app.post('/pets', async (req, res) => {
+    try {
+        const newPet = req.body
+        // const {name , age, gender } = req.body
+        //const newPet = { name, age , gender}
+        const result = await createPet(newPet)
+
+        res.status(201).send(result);
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).send(error)
+        
+    }
+})
+
+
+
 const PORT = 3030
 
 app.listen( PORT, () => {
